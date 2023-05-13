@@ -16,15 +16,13 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         UserDetails normal = User.withUsername("Madhuya").password("Madhurya").roles("NORMAL").build();
         UserDetails admin = User.withUsername("Monal").password("Monal").roles("ADMIN").build();
-
-
         return new InMemoryUserDetailsManager(normal, admin);
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeHttpRequests().
-                requestMatchers("/api/contacts").permitAll().
+                requestMatchers("/api/contacts/**").permitAll().
                 anyRequest().authenticated().and().formLogin();
 
         return httpSecurity.build();
